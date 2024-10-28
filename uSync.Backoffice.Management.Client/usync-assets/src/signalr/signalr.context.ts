@@ -36,7 +36,10 @@ export class uSyncSignalRContext extends UmbControllerBase {
 	public readonly add = this.#add.asObservable();
 
 	#setupConnection(url: string) {
-		this.#connection = new signalR.HubConnectionBuilder().withUrl(url).build();
+		this.#connection = new signalR.HubConnectionBuilder()
+			.configureLogging(signalR.LogLevel.Warning)
+			.withUrl(url)
+			.build();
 
 		this.#connection.on('add', (data) => {
 			this.#add.setValue(data);
